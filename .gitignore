@@ -1,0 +1,41 @@
+# ==============================================================================
+# Subway Surfers Linux — Git Ignore Specification
+# ==============================================================================
+
+# User Data & Personal Player Saves
+*profile*/
+/tmp/subway_*
+subway_test_profile_*
+subway_persistence_verification_profile/
+*.leveldb
+*.ldb
+
+# Backups & Proprietary Upstream Binaries
+backups/
+*.orig
+*.tar.gz
+
+# Pre-packaged Binaries & Release Archives
+app/*.AppImage
+app/*.deb
+release/*.zip
+
+# Intermediate Build Artifacts & Trees
+build/
+squashfs-root/
+*.squashfs
+
+# Python & Node Caches
+__pycache__/
+*.py[cod]
+*$py.class
+node_modules/
+.npm/
+
+# Logs & Temporary Files
+*.log
+*.tmp
+*.swp
+*~
+.DS_Store
+Thumbs.db

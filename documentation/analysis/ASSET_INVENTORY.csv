@@ -1,0 +1,32 @@
+Filename,File Format,File Size,Likely Purpose,Location,Standard Tools Inspection,Specialized Tool Required
+SanFrancisco.wasm.code.unityweb,WebAssembly Binary Module (v1 MVP),"25,765,359 bytes (24.57 MB)",Compiled C# game logic & Unity engine via IL2CPP to WebAssembly,squashfs-root/html/Build/,"wasm2wat, wasm-objdump, strings, hexdump",Ghidra WASM loader / Il2CppDumper / Wasm decompiler
+SanFrancisco.data.unityweb,UnityWebData 1.0 (Composite Archive),"27,979,216 bytes (26.68 MB)","Master package containing UnityFS scenes, metadata, audio, and default assets",squashfs-root/html/Build/,"hexdump, python struct unpacker, strings",Custom UnityWebData unpacker / AssetStudio / UnityPy
+data.unity3d (embedded),"UnityFS Archive (v7, LZ4-compressed)","15,634,579 bytes (14.91 MB)","Serialized Unity scenes, 3D character meshes, level prefabs, textures, materials",embedded inside SanFrancisco.data.unityweb at offset 0x0091f464,"python LZ4 decompressor, strings","AssetStudio, UnityPy, UABE"
+global-metadata.dat (embedded),Unity IL2CPP Metadata (v24),"6,109,716 bytes (5.83 MB)","IL2CPP type descriptors, method signatures, field offsets, string literals",embedded inside SanFrancisco.data.unityweb at offset 0x0034ba12,"python struct parser, strings, grep","Il2CppDumper, Il2CppInspector"
+sharedassets1.resource (embedded),ISO Base Media / MP4 / M4A Audio Stream Pack (AAC),"2,446,530 bytes (2.33 MB)","Gameplay audio clips (21 streams: main theme song, train horn, board effects)",embedded inside SanFrancisco.data.unityweb at offset 0x0185990e,"ffmpeg, ffprobe, vlc, file",No (standard media players/extractors can parse MP4 streams)
+resources.resource (embedded),ISO Base Media / MP4 / M4A Audio Stream Pack (AAC),"332,823 bytes (0.32 MB)","Sound effects (24 streams: coin pickup, jump, roll, stumble, UI clicks)",embedded inside SanFrancisco.data.unityweb at offset 0x018084f7,"ffmpeg, ffprobe, vlc, file",No (standard media players/extractors can parse MP4 streams)
+unity_default_resources (embedded),Unity Serialized Asset File (Unity 2019.4.11f1),"3,421,588 bytes (3.26 MB)","Default engine shaders, default materials, default fonts (Arial), UI shaders",embedded inside SanFrancisco.data.unityweb at offset 0x0000010e,"strings, hexdump","AssetStudio, UnityPy"
+machine.config (embedded),XML Configuration,"33,648 bytes (0.03 MB)",Mono/CLR machine configuration profile,embedded inside SanFrancisco.data.unityweb at offset 0x003436a2,"cat, xmllint, grep",None
+boot.config (embedded),Key-Value Text,62 bytes,"Unity runtime boot parameters (debugger, VR, HDR settings)",embedded inside SanFrancisco.data.unityweb at offset 0x0091f426,"cat, text editor",None
+SanFrancisco.wasm.framework.unityweb,JavaScript Source (Emscripten Runtime Glue),"521,663 bytes (0.50 MB)","Emscripten WASM-to-JS bridge, memory allocation, WebGL/WebAudio calls",squashfs-root/html/Build/,"cat, prettier, grep, text editor",JavaScript AST beautifier / debugger
+SanFrancisco.json,JSON Text Data,673 bytes,"Unity WebGL loader configuration (product info, asset URLs, memory size)",squashfs-root/html/Build/,"jq, cat, text editor",None
+UnityLoader.2019.2.js,JavaScript Source,"237,684 bytes (0.23 MB)",Unity 2019 WebGL Loader script (handles canvas creation and downloading),squashfs-root/html/,"cat, text editor",None
+index.html,HTML Document,977 bytes,"Main web game container page, configures canvas and loads master-loader",squashfs-root/html/,"cat, browser, text editor",None
+master-loader.js,JavaScript Source,"1,389 bytes",Dispatcher that loads poki-sdk.js and unity.js,squashfs-root/html/,"cat, text editor",None
+poki-sdk.js,JavaScript Source,"5,595 bytes",Poki SDK API shim / loader,squashfs-root/html/,"cat, text editor",None
+poki-sdk-core.js,JavaScript Source,"238,797 bytes (0.23 MB)","Poki Web SDK implementation (interstitial ads, telemetry stubs)",squashfs-root/html/,"cat, grep, text editor",None
+4399.js,JavaScript Source (Emscripten module wrapper),"880,267 bytes (0.84 MB)",Emscripten filesystem (IDBFS) mount and fullscreen handler from 4399 portal,squashfs-root/html/,"cat, grep, text editor",None
+unity.js,JavaScript Source,"45,476 bytes (0.04 MB)","Unity WebGL UI wrapper, loading bar, progress events",squashfs-root/html/,"cat, text editor",None
+script.js,JavaScript Source,761 bytes,Iframe check and domain-locking script (Igroutka portal stub),squashfs-root/html/,"cat, text editor",None
+prebid4.12.0.js,Empty Text File,0 bytes,Zeroed ad-bidding script stub,squashfs-root/html/,"ls, file",None
+favicon.ico,ICO Image,852 bytes,Web favicon icon,squashfs-root/html/,"file, image viewer",None
+1-small.jpg,JPEG Image (100x56),"2,775 bytes",Preview gameplay thumbnail 1,squashfs-root/html/screenshots/,"file, image viewer",None
+2-small.jpg,JPEG Image (100x56),"2,051 bytes",Preview gameplay thumbnail 2,squashfs-root/html/screenshots/,"file, image viewer",None
+icon.png / .DirIcon,PNG Image (512x512 RGBA),"378,940 bytes (0.36 MB)",Subway Surfers desktop icon & AppImage file manager thumbnail,squashfs-root/resources/app/icon.png and squashfs-root/.DirIcon,"file, pngcheck, image viewer",None
+resources.pak,Chromium Binary Data Pak,"6,234,509 bytes (5.95 MB)","Electron / Chromium browser UI components, error pages, DevTools assets",squashfs-root/,"strings, hexdump",grit / unpak / chrome-pak-customizer
+chrome_100_percent.pak,Chromium Binary Data Pak,"147,640 bytes (0.14 MB)",Chromium 1x scale UI images and icons,squashfs-root/,"strings, hexdump",unpak
+chrome_200_percent.pak,Chromium Binary Data Pak,"219,192 bytes (0.21 MB)",Chromium 2x HiDPI scale UI images and icons,squashfs-root/,"strings, hexdump",unpak
+icudtl.dat,ICU Data Binary Archive,"10,466,624 bytes (9.98 MB)","International Components for Unicode (locale tables, timezones, encodings)",squashfs-root/,"file, strings",icupkg
+snapshot_blob.bin,V8 Startup Snapshot Binary,"335,998 bytes (0.32 MB)",Precompiled V8 heap snapshot for fast Node.js/Chromium startup,squashfs-root/,"strings, hexdump",V8 disassembler / mksnapshot
+v8_context_snapshot.bin,V8 Context Snapshot Binary,"711,733 bytes (0.68 MB)",Precompiled V8 context snapshot for Chromium DOM bindings,squashfs-root/,"strings, hexdump",V8 context tools
+locales/*.pak (56 files),Chromium Localization Pak Files,"46,478,754 bytes total (~44.3 MB)",Translated browser and Chromium UI strings for 56 languages,squashfs-root/locales/,"strings, hexdump",unpak

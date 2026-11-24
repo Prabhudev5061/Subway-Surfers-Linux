@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Subway Surfers
+Comment=Subway Surfers World Tour: San Francisco with AutoSave System
+Exec=AppRun %U
+Icon=subwaysurfers
+Terminal=false
+Type=Application
+Categories=Game;ArcadeGame;
+StartupWMClass=Subway Surfers
+Keywords=subway;surfers;game;arcade;unity;

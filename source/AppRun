@@ -1,0 +1,67 @@
+#!/bin/bash
+
+HERE="$(dirname "$(readlink -f "${0}")")"
+
+# Check AppArmor unprivileged userns restrictions
+sandbox=""
+if [ -f /proc/sys/kernel/apparmor_restrict_unprivileged_userns ]; then
+    restriction=$(cat /proc/sys/kernel/apparmor_restrict_unprivileged_userns 2>/dev/null || echo "0")
+    if [ "$restriction" = "1" ]; then
+        echo "[AppRun] AppArmor restrictions on unprivileged user namespaces detected: disabling Chrome sandbox."
+        sandbox="--no-sandbox"
+    fi
+fi
+
+export appimage=true
+
+TARGET_LINK="/tmp/SubwaySurfers"
+USER_RUNTIME_LINK="${XDG_RUNTIME_DIR:-/tmp}/SubwaySurfers_${USER}"
+
+setup_symlink() {
+    local link="$1"
+    if [ -L "$link" ]; then
+        local dest
+        dest=$(readlink -f "$link" 2>/dev/null || true)
+        if [ "$dest" != "$HERE/html" ]; then
+            rm -f "$link" 2>/dev/null || true
+            ln -snf "$HERE/html" "$link" 2>/dev/null || true
+        fi
+    elif [ ! -e "$link" ]; then
+        ln -snf "$HERE/html" "$link" 2>/dev/null || true
+    fi
+}
+
+cleanup_symlink() {
+    local link="$1"
+    if [ -L "$link" ]; then
+        local dest
+        dest=$(readlink -f "$link" 2>/dev/null || true)
+        if [ "$dest" = "$HERE/html" ]; then
+            rm -f "$link" 2>/dev/null || true
+        fi
+    fi
+}
+
+# Try primary standard path first (/tmp/SubwaySurfers)
+setup_symlink "$TARGET_LINK"
+
+if [ -d "$TARGET_LINK" ] && [ -f "$TARGET_LINK/index.html" ]; then
+    export SUBWAY_HTML_DIR="$TARGET_LINK"
+else
+    # Fallback to user runtime directory
+    setup_symlink "$USER_RUNTIME_LINK"
+    export SUBWAY_HTML_DIR="$USER_RUNTIME_LINK"
+fi
+
+# Run application
+if [ -n "$sandbox" ]; then
+    "$HERE/SubwaySurfers" "$sandbox" "$@"
+else
+    "$HERE/SubwaySurfers" "$@"
+fi
+EXIT_CODE=$?
+
+cleanup_symlink "$TARGET_LINK"
+cleanup_symlink "$USER_RUNTIME_LINK"
+
+exit $EXIT_CODE

@@ -1,0 +1,109 @@
+DIRECTORY TREE REPORT - Subway Surfers AppImage (Extracted)
+Total directories: 7
+Total files: 96
+Total extracted size: 349,219,747 bytes (333.04 MB)
+================================================================================
+
+[DIR]  squashfs-root/ (files in dir: 20, size: 249,370,094 bytes)
+    [FILE] .DirIcon                                      |      378,940 bytes
+    [FILE] AppRun                                        |          682 bytes
+    [FILE] LICENSE                                       |        1,096 bytes
+    [FILE] LICENSES.chromium.html                        |   15,190,831 bytes
+    [FILE] SubwaySurfers                                 |  197,543,680 bytes
+    [FILE] chrome-sandbox                                |       38,224 bytes
+    [FILE] chrome_100_percent.pak                        |      147,640 bytes
+    [FILE] chrome_200_percent.pak                        |      219,192 bytes
+    [FILE] chrome_crashpad_handler                       |    1,556,152 bytes
+    [FILE] icudtl.dat                                    |   10,466,624 bytes
+    [FILE] libEGL.so                                     |      260,424 bytes
+    [FILE] libGLESv2.so                                  |    6,434,712 bytes
+    [FILE] libffmpeg.so                                  |    2,778,264 bytes
+    [FILE] libvk_swiftshader.so                          |    4,799,136 bytes
+    [FILE] libvulkan.so.1                                |    2,272,144 bytes
+    [FILE] resources.pak                                 |    6,234,509 bytes
+    [FILE] snapshot_blob.bin                             |      335,998 bytes
+    [FILE] v8_context_snapshot.bin                       |      711,733 bytes
+    [FILE] version                                       |            6 bytes
+    [FILE] vk_swiftshader_icd.json                       |          107 bytes
+    [DIR]  html/ (files in dir: 10, size: 1,411,798 bytes)
+        [FILE] 4399.js                                       |      880,267 bytes
+        [FILE] UnityLoader.2019.2.js                         |      237,684 bytes
+        [FILE] favicon.ico                                   |          852 bytes
+        [FILE] index.html                                    |          977 bytes
+        [FILE] master-loader.js                              |        1,389 bytes
+        [FILE] poki-sdk-core.js                              |      238,797 bytes
+        [FILE] poki-sdk.js                                   |        5,595 bytes
+        [FILE] prebid4.12.0.js                               |            0 bytes
+        [FILE] script.js                                     |          761 bytes
+        [FILE] unity.js                                      |       45,476 bytes
+        [DIR]  Build/ (files in dir: 4, size: 54,266,911 bytes)
+            [FILE] SanFrancisco.data.unityweb                    |   27,979,216 bytes
+            [FILE] SanFrancisco.json                             |          673 bytes
+            [FILE] SanFrancisco.wasm.code.unityweb               |   25,765,359 bytes
+            [FILE] SanFrancisco.wasm.framework.unityweb          |      521,663 bytes
+        [DIR]  screenshots/ (files in dir: 2, size: 4,826 bytes)
+            [FILE] 1-small.jpg                                   |        2,775 bytes
+            [FILE] 2-small.jpg                                   |        2,051 bytes
+    [DIR]  locales/ (files in dir: 55, size: 43,697,308 bytes)
+        [FILE] af.pak                                        |      549,184 bytes
+        [FILE] am.pak                                        |      891,842 bytes
+        [FILE] ar.pak                                        |      982,270 bytes
+        [FILE] bg.pak                                        |    1,016,332 bytes
+        [FILE] bn.pak                                        |    1,312,842 bytes
+        [FILE] ca.pak                                        |      618,271 bytes
+        [FILE] cs.pak                                        |      638,553 bytes
+        [FILE] da.pak                                        |      576,418 bytes
+        [FILE] de.pak                                        |      617,099 bytes
+        [FILE] el.pak                                        |    1,116,013 bytes
+        [FILE] en-GB.pak                                     |      500,254 bytes
+        [FILE] en-US.pak                                     |      505,486 bytes
+        [FILE] es-419.pak                                    |      609,015 bytes
+        [FILE] es.pak                                        |      607,291 bytes
+        [FILE] et.pak                                        |      553,006 bytes
+        [FILE] fa.pak                                        |      911,062 bytes
+        [FILE] fi.pak                                        |      564,235 bytes
+        [FILE] fil.pak                                       |      639,708 bytes
+        [FILE] fr.pak                                        |      658,623 bytes
+        [FILE] gu.pak                                        |    1,296,318 bytes
+        [FILE] he.pak                                        |      799,857 bytes
+        [FILE] hi.pak                                        |    1,370,719 bytes
+        [FILE] hr.pak                                        |      615,785 bytes
+        [FILE] hu.pak                                        |      661,518 bytes
+        [FILE] id.pak                                        |      545,723 bytes
+        [FILE] it.pak                                        |      599,127 bytes
+        [FILE] ja.pak                                        |      729,265 bytes
+        [FILE] kn.pak                                        |    1,482,029 bytes
+        [FILE] ko.pak                                        |      617,272 bytes
+        [FILE] lt.pak                                        |      668,310 bytes
+        [FILE] lv.pak                                        |      665,569 bytes
+        [FILE] ml.pak                                        |    1,536,488 bytes
+        [FILE] mr.pak                                        |    1,268,539 bytes
+        [FILE] ms.pak                                        |      573,340 bytes
+        [FILE] nb.pak                                        |      553,188 bytes
+        [FILE] nl.pak                                        |      574,608 bytes
+        [FILE] pl.pak                                        |      639,674 bytes
+        [FILE] pt-BR.pak                                     |      600,185 bytes
+        [FILE] pt-PT.pak                                     |      603,839 bytes
+        [FILE] ro.pak                                        |      626,266 bytes
+        [FILE] ru.pak                                        |    1,035,566 bytes
+        [FILE] sk.pak                                        |      649,732 bytes
+        [FILE] sl.pak                                        |      622,258 bytes
+        [FILE] sr.pak                                        |      960,214 bytes
+        [FILE] sv.pak                                        |      557,573 bytes
+        [FILE] sw.pak                                        |      588,639 bytes
+        [FILE] ta.pak                                        |    1,526,276 bytes
+        [FILE] te.pak                                        |    1,410,326 bytes
+        [FILE] th.pak                                        |    1,183,589 bytes
+        [FILE] tr.pak                                        |      599,173 bytes
+        [FILE] uk.pak                                        |    1,038,626 bytes
+        [FILE] ur.pak                                        |      902,798 bytes
+        [FILE] vi.pak                                        |      711,917 bytes
+        [FILE] zh-CN.pak                                     |      510,655 bytes
+        [FILE] zh-TW.pak                                     |      504,843 bytes
+    [DIR]  resources/ (files in dir: 0, size: 0 bytes)
+        [DIR]  app/ (files in dir: 5, size: 468,810 bytes)
+            [FILE] icon.png                                      |      378,940 bytes
+            [FILE] main.js                                       |        2,464 bytes
+            [FILE] package.json                                  |          252 bytes
+            [FILE] pnpm-lock.yaml                                |       86,336 bytes
+            [FILE] preload.js                                    |          818 bytes
