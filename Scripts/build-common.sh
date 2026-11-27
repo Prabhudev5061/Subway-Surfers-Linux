@@ -82,11 +82,25 @@ stage = Path(sys.argv[1])
 ver = sys.argv[2]
 
 if ver == "SanFrancisco":
-    forbidden = ("beijing_2", "igroutka", "4399.png", "icon-placeholder")
+    forbidden = ("beijing_2", "zurichnewprivacy", "igroutka", "logo-mini.png", "4399.png", "icon-placeholder")
     required = ("web/Build/SanFrancisco.json", "web/Build/SanFrancisco.data.unityweb", "web/Build/SanFrancisco.wasm.code.unityweb")
-else:
-    forbidden = ("sanfrancisco", "igroutka", "icon-placeholder", "poki-sdk-core.js", "prebid4.12.0.js", "script.js")
+elif ver == "Beijing":
+    forbidden = ("sanfrancisco", "zurichnewprivacy", "igroutka", "logo-mini.png", "icon-placeholder", "poki-sdk-core.js", "prebid4.12.0.js", "script.js", "loaders/v3/")
     required = ("web/Build/Beijing_2.json", "web/Build/Beijing_2.data.unityweb", "web/Build/Beijing_2.wasm.code.unityweb")
+elif ver == "Zurich":
+    forbidden = ("sanfrancisco", "beijing_2", "igroutka", "logo-mini.png", "4399.png", "icon-placeholder", "poki-sdk-core.js", "prebid4.12.0.js", "script.js")
+    required = (
+        "web/Build/ZurichNewPrivacy.json",
+        "web/Build/ZurichNewPrivacy.data.unityweb",
+        "web/Build/ZurichNewPrivacy.wasm.code.unityweb",
+        "web/Build/ZurichNewPrivacy.wasm.framework.unityweb",
+        "web/UnityLoader.2019.2.js",
+        "web/4399.js",
+        "web/b3f5e1472e1bfbee1804c7e854546a08.png",
+    )
+else:
+    print(f"FATAL: Unknown version {ver}", file=sys.stderr)
+    sys.exit(1)
 
 for req in required:
     if not (stage / req).is_file():

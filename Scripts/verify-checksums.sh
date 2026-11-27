@@ -8,8 +8,10 @@ if [ "$1" = "--generate" ]; then
     {
         sha256sum "App images/SubwaySurfers-SanFrancisco-Linux-x86_64.AppImage"
         sha256sum "App images/SubwaySurfers-Beijing-Linux-x86_64.AppImage"
+        sha256sum "App images/SubwaySurfers-Zurich-Linux-x86_64.AppImage"
         sha256sum "Debian installers/SubwaySurfers-SanFrancisco-Linux-amd64.deb"
         sha256sum "Debian installers/SubwaySurfers-Beijing-Linux-amd64.deb"
+        sha256sum "Debian installers/SubwaySurfers-Zurich-Linux-amd64.deb"
         sha256sum "Terminal-Bash-Installers/SanFrancisco/install.sh"
         sha256sum "Terminal-Bash-Installers/SanFrancisco/uninstall.sh"
         sha256sum "Terminal-Bash-Installers/SanFrancisco/required-files/SubwaySurfers-SanFrancisco-Linux-x86_64.AppImage"
@@ -22,6 +24,12 @@ if [ "$1" = "--generate" ]; then
         sha256sum "Terminal-Bash-Installers/Beijing/required-files/SubwaySurfers-Beijing-Linux-amd64.deb"
         sha256sum "Terminal-Bash-Installers/Beijing/required-files/subwaysurfers-beijing.png"
         sha256sum "Terminal-Bash-Installers/Beijing/required-files/subwaysurfers-beijing.desktop"
+        sha256sum "Terminal-Bash-Installers/Zurich/install.sh"
+        sha256sum "Terminal-Bash-Installers/Zurich/uninstall.sh"
+        sha256sum "Terminal-Bash-Installers/Zurich/required-files/SubwaySurfers-Zurich-Linux-x86_64.AppImage"
+        sha256sum "Terminal-Bash-Installers/Zurich/required-files/SubwaySurfers-Zurich-Linux-amd64.deb"
+        sha256sum "Terminal-Bash-Installers/Zurich/required-files/subwaysurfers-zurich.png"
+        sha256sum "Terminal-Bash-Installers/Zurich/required-files/subwaysurfers-zurich.desktop"
     } > SHA256SUMS
     echo "Generated SHA256SUMS:"
     cat SHA256SUMS

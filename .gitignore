@@ -15,7 +15,11 @@ Terminal-Bash-Installers/*/required-files/*
 *.unity3d
 Source/SanFrancisco/web/Build/
 Source/Beijing/web/Build/
+Source/Zurich/web/Build/
+!Source/Beijing/web/Build/README.md
+!Source/Zurich/web/Build/README.md
 Source/SanFrancisco/web/UnityLoader*.js
+Source/Zurich/web/UnityLoader*.js
 Source/Beijing/web/loaders/
 Source/SanFrancisco/web/poki-sdk*.js
 Source/SanFrancisco/web/prebid*.js
@@ -24,10 +28,12 @@ Source/SanFrancisco/web/unity.js
 Source/SanFrancisco/web/master-loader.js
 Source/SanFrancisco/web/4399.js
 Source/Beijing/web/4399.js
+Source/Zurich/web/4399.js
 Source/*/web/screenshots/
 Source/*/web/fonts/
 Source/*/web/*.png
 Source/*/web/*.ico
+Source/*/web/*.woff2
 Source/*/assets/
 
 # Local user save storage, runtime profiles & backups
