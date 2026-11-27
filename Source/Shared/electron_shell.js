@@ -279,7 +279,8 @@ function launchUnifiedGame(config) {
         const allowedSharedFiles = new Set([
             '/shared/sha1_header.js',
             '/shared/host_idbfs_bridge.js',
-            '/shared/autosave_manager.js'
+            '/shared/autosave_manager.js',
+            '/shared/controls_wasd.js'
         ]);
 
         const handler = (req, res) => {

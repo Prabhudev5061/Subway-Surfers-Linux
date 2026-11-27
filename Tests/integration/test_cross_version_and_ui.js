@@ -254,6 +254,68 @@ async function writeMemfsCloudProgress(cdp, hash, sharedSaveDir, coins, highScor
     })()`);
 }
 
+async function verifyLiveWasdControls(cdp, appProc, spec) {
+    const sendKey = async (type, key, code, vk, repeat = false) => {
+        await cdp.call('Input.dispatchKeyEvent', {
+            type,
+            key,
+            code,
+            windowsVirtualKeyCode: vk,
+            nativeVirtualKeyCode: vk,
+            autoRepeat: repeat
+        });
+    };
+
+    // Start run via Space (must pass through unchanged)
+    await sendKey('keyDown', ' ', 'Space', 32);
+    await delay(70);
+    await sendKey('keyUp', ' ', 'Space', 32);
+    await delay(500);
+
+    // Physical Arrow key must be suppressed
+    await sendKey('keyDown', 'ArrowLeft', 'ArrowLeft', 37);
+    await delay(50);
+    await sendKey('keyUp', 'ArrowLeft', 'ArrowLeft', 37);
+
+    // W, A, S, D (including repeated keydown and release)
+    for (const [k, c, vk] of [['w', 'KeyW', 87], ['a', 'KeyA', 65], ['s', 'KeyS', 83], ['d', 'KeyD', 68]]) {
+        await sendKey('keyDown', k, c, vk, false);
+        await delay(50);
+        await sendKey('keyDown', k, c, vk, true);
+        await delay(40);
+        await sendKey('keyUp', k, c, vk, false);
+        await delay(60);
+    }
+
+    // Hold W + D then trigger blur -> must release both without stuck keys
+    await sendKey('keyDown', 'w', 'KeyW', 87);
+    await sendKey('keyDown', 'd', 'KeyD', 68);
+    await delay(40);
+    const heldBeforeBlur = await cdp.eval('window.SubwayControls.getActiveMappedKeys()');
+    assert.deepStrictEqual(heldBeforeBlur.sort(), ['KeyD', 'KeyW'], `${spec.name} must track held WASD keys`);
+    await cdp.eval('window.dispatchEvent(new Event("blur"))');
+    await delay(40);
+    const heldAfterBlur = await cdp.eval('window.SubwayControls.getActiveMappedKeys()');
+    assert.strictEqual(heldAfterBlur.length, 0, `${spec.name} must release held WASD keys on blur`);
+
+    // Escape must pause/pass through without closing app
+    await sendKey('keyDown', 'Escape', 'Escape', 27);
+    await delay(60);
+    await sendKey('keyUp', 'Escape', 'Escape', 27);
+    await delay(120);
+    assert.strictEqual(appProc.exitCode, null, `Escape must NOT terminate ${spec.name}`);
+
+    const trace = await cdp.eval('window.SubwayControls.getTrace()');
+    const remaps = trace.filter((t) => t.to).map((t) => `${t.type}:${t.phys}->${t.to}`);
+    assert(remaps.includes('keydown:KeyW->ArrowUp'), `${spec.name} W keydown -> ArrowUp`);
+    assert(remaps.includes('keydown:KeyA->ArrowLeft'), `${spec.name} A keydown -> ArrowLeft`);
+    assert(remaps.includes('keydown:KeyS->ArrowDown'), `${spec.name} S keydown -> ArrowDown`);
+    assert(remaps.includes('keydown:KeyD->ArrowRight'), `${spec.name} D keydown -> ArrowRight`);
+    assert(remaps.includes('keyup:KeyW->ArrowUp'), `${spec.name} W keyup -> ArrowUp`);
+    assert(remaps.includes('keyup:KeyD->ArrowRight'), `${spec.name} D keyup -> ArrowRight`);
+    assert(trace.some((t) => t.suppressed && t.phys === 'ArrowLeft'), `${spec.name} must suppress physical ArrowLeft`);
+}
+
 function assertUiAndSecurity(verKey, state, sharedSaveDir) {
     const spec = APPS[verKey];
     assert.strictEqual(state.hasToolbar, false, `${spec.name} must have no developer toolbar`);
@@ -319,6 +381,8 @@ async function run() {
             assertUiAndSecurity(step.key, state, sharedSaveDir);
 
             if (step.testWindowControls) {
+                await verifyLiveWasdControls(cdp, app.proc, spec);
+
                 await cdp.eval(`window.subwayIPC.toggleFullscreen()`);
                 await delay(350);
                 const afterToggle = await cdp.eval(`window.subwayIPC.getWindowState()`);

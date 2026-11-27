@@ -37,13 +37,16 @@ echo "=== 2. Safe First-Launch Migration Tests ==="
 echo "=== 3. AutoSave & HostIDBFS Integration Tests ==="
 "$NODE_BIN" "$REPO_ROOT/Tests/autosave/test_autosave_and_recovery.js"
 
-echo "=== 4. Packaging, Naming, Logos & Standalone Installer Tests ==="
+echo "=== 4. WASD Controls Remapping & Focus-Loss Safety Tests ==="
+"$NODE_BIN" "$REPO_ROOT/Tests/controls/test_wasd_controls.js"
+
+echo "=== 5. Packaging, Naming, Logos & Standalone Installer Tests ==="
 python3 "$REPO_ROOT/Tests/packaging/test_packaging_and_installers.py"
 
-echo "=== 5. Live Cross-Version Switching, UI, Security & Crash Recovery Tests ==="
+echo "=== 6. Live Cross-Version Switching, UI, Security & Crash Recovery Tests ==="
 "$NODE_BIN" "$REPO_ROOT/Tests/integration/test_cross_version_and_ui.js"
 
-echo "=== 6. SHA256SUMS Verification ==="
+echo "=== 7. SHA256SUMS Verification ==="
 "$SCRIPT_DIR/verify-checksums.sh"
 
 echo ""
