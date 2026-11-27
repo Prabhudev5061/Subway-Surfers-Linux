@@ -1,0 +1,8 @@
+{
+  "name": "subwaysurfers-zurich-linux",
+  "version": "1.94.0-unified.1",
+  "description": "Subway Surfers Zurich Linux (Unified Shared Storage)",
+  "main": "main.js",
+  "author": "SubwaySurfers-Linux Contributors",
+  "license": "MIT"
+}

@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Subway Surfers: Zurich
+Comment=Subway Surfers World Tour: Zurich (Unified Shared Save Edition)
+Exec=subwaysurfers-zurich %U
+Icon=subwaysurfers-zurich
+Terminal=false
+Type=Application
+Categories=Game;ArcadeGame;
+StartupWMClass=SubwaySurfers-Zurich-Linux
+Keywords=subway;surfers;zurich;game;runner;arcade;

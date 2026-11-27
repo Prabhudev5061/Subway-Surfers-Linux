@@ -1,0 +1,121 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background: #231F20;
+  color: #e6ebf5;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  overflow: hidden;
+}
+
+.hidden {
+  display: none !important;
+}
+
+#viewport-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #231F20;
+  overflow: hidden;
+}
+
+#gameContainer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #231F20;
+}
+
+#gameContainer canvas {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  display: block;
+  outline: none;
+}
+
+.overlay-card {
+  position: absolute;
+  max-width: 380px;
+  width: calc(100% - 40px);
+  background: rgba(24, 24, 28, 0.92);
+  border: 1px solid #35353d;
+  border-radius: 10px;
+  padding: 20px 22px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  z-index: 10;
+  text-align: center;
+}
+
+.loading-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 14px;
+  color: #f3f4f6;
+}
+
+.overlay-card h1 {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.overlay-card p {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: #b7c2d6;
+  margin-bottom: 16px;
+}
+
+.progress-track {
+  width: 100%;
+  height: 8px;
+  background: #141418;
+  border: 1px solid #2f2f38;
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.progress-fill {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, #38bdf8, #3b82f6);
+  transition: width 0.2s ease;
+}
+
+.progress-label {
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+.btn {
+  background: #242d3d;
+  color: #dce5f5;
+  border: 1px solid #354259;
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: #2e394d;
+}
+
+.btn-primary {
+  background: #1d4ed8;
+  border-color: #3b82f6;
+  color: #ffffff;
+}
