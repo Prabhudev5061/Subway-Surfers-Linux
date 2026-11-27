@@ -1,4 +1,6 @@
-# Shared Save Storage Architecture (`~/.local/share/SubwaySurfers-Linux/Save/`)
+# Shared Save Storage Architecture (`~/.local/share/SubwaySurfers-Linux/Save/`) — v1.0
+
+See also [SAVE_COMPATIBILITY.md](SAVE_COMPATIBILITY.md) for the `SubwaySurfers-Linux 1.0` schema matrix and live cross-version verification details.
 
 ## 1. Canonical Save Directory
 

@@ -34,5 +34,5 @@ Source discovered at `/home/prabhudev/Subway Surfer/Zurich/files/m.igroutka.ru/n
 - **`runtime/unity_2019_4_compat.js` & `runtime/runtime_bootstrap.js`:** Probes WebGL 2.0/1.0 and required assets, displays `#loading-overlay` immediately, computes aspect-ratio-safe viewport dimensions, hides `#loading-overlay` only after `Module.postRun` (+250ms), and unlocks WebAudio on first gesture.
 - **`Source/Zurich/electron/main.js`:** Launches hardened `Source/Shared/electron_shell.js` on `127.0.0.1:47323` with `sandbox: true`, `contextIsolation: true`, `nodeIntegration: false`.
 
-## 4. Shared Storage, AutoSave & Crash Recovery
-- `Source/Zurich/web/4399.js` routes `IDBFS.syncfs` through `window.HostIDBFS` (`Source/Shared/host_idbfs_bridge.js`) directly to `~/.local/share/SubwaySurfers-Linux/Save/`, pre-creates MEMFS `/http:/127.0.0.1:<port>` directories, and attaches `AutoSaveManager` `FS.close` / `FS.rename` hooks.
+## 4. Shared Storage, AutoSave & Controls
+- `Source/Zurich/web/4399.js` routes `IDBFS.syncfs` through `window.HostIDBFS` (`Source/Shared/host_idbfs_bridge.js`) directly to `~/.local/share/SubwaySurfers-Linux/Save/`, pre-creates MEMFS `/http:/127.0.0.1:<port>` directories, attaches `AutoSaveManager` `FS.close` / `FS.rename` hooks, and passes Unity key events through `Source/Shared/controls_wasd.js` (`W/A/S/D` movement, physical arrows suppressed, focus-loss keyup cleanup).

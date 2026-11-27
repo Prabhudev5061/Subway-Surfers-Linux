@@ -1,10 +1,11 @@
 [Desktop Entry]
 Name=Subway Surfers: San Francisco
-Comment=Subway Surfers World Tour: San Francisco (Unified Shared Save Edition)
+Comment=SubwaySurfers-Linux 1.0 — World Tour: San Francisco (Game v1.94.0)
 Exec=subwaysurfers-sanfrancisco %U
 Icon=subwaysurfers-sanfrancisco
 Terminal=false
 Type=Application
 Categories=Game;ArcadeGame;
 StartupWMClass=SubwaySurfers-SanFrancisco-Linux
+X-AppImage-Version=1.0.0
 Keywords=subway;surfers;sanfrancisco;game;runner;arcade;

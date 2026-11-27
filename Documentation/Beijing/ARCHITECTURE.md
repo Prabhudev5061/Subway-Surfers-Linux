@@ -16,8 +16,8 @@
 - **`runtime_bootstrap.js`:** Keeps `#loading-overlay` visible until `Module.postRun` completes (+250ms) and falls back to `window.innerWidth`/`innerHeight` when computing viewport size, preventing a blank `#231F20` frame before Unity renders.
 - **X11 Window Icon Sizing (`electron_shell.js`):** Resizes the original `2048x2048` `4399.png` in memory to `256x256` via `nativeImage` for the X11 `_NET_WM_ICON` property, avoiding X11's `16,777,248`-byte `Cannot send request` overflow while keeping the unmodified original `4399.png` on disk.
 
-## 3. Shared Storage, AutoSave & Crash Recovery
-- `Source/Beijing/web/4399.js` routes `IDBFS.syncfs` through `window.HostIDBFS` (`Source/Shared/host_idbfs_bridge.js`) to `~/.local/share/SubwaySurfers-Linux/Save/`.
+## 3. Shared Storage, AutoSave & Controls
+- `Source/Beijing/web/4399.js` routes `IDBFS.syncfs` through `window.HostIDBFS` (`Source/Shared/host_idbfs_bridge.js`) to `~/.local/share/SubwaySurfers-Linux/Save/`, and passes Unity key events through `Source/Shared/controls_wasd.js` (`W/A/S/D` movement, physical arrows suppressed, focus-loss keyup cleanup).
 - Uses unified `Source/Shared/autosave_manager.js`, `Source/Shared/shared_storage.js`, and `Source/Shared/storage_lock.js` for atomic writes, recovery backups, and exclusive locking.
 
 ## 4. Known Limitations

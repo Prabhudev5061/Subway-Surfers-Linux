@@ -1,6 +1,8 @@
-# Release Notes — `SubwaySurfers-Beijing-Linux` (`1.94.0-unified1`)
+# Release Notes — `SubwaySurfers-Beijing-Linux` (`SubwaySurfers-Linux 1.0`, Game `1.94.0`)
 
-- Consolidated into unified `SubwaySurfers-Linux` repository alongside San Francisco.
+- Updated movement controls to **WASD** (`W` jump, `A` left, `S` roll, `D` right) via `Source/Shared/controls_wasd.js`, disabling physical arrow keys as primary movement while preserving `Space`, `Escape`, `F11`, mouse, touch, gamepad, text input, and Electron shortcuts.
+- Packaged as part of **SubwaySurfers-Linux 1.0** (`1.0.0` package metadata; underlying game build remains `Beijing_2` `1.94.0`).
+- Consolidated into unified `SubwaySurfers-Linux` repository alongside San Francisco and Zurich.
 - Replaced per-app IndexedDB storage (`~/.config/SubwaySurfersBeijing2`) with unified shared host storage (`~/.local/share/SubwaySurfers-Linux/Save/`).
 - Replaced placeholder icon (`icon-placeholder.png`) with the original supplied Beijing logo (`4399.png`), with in-memory `256x256` X11 window icon resizing to eliminate the X11 `16,777,248`-byte request overflow.
 - Updated `runtime_bootstrap.js` so `#loading-overlay` remains visible until `Module.postRun` completes, preventing a blank `#231F20` window frame during WASM initialization.

@@ -1,7 +1,7 @@
 {
   "name": "subwaysurfers-sanfrancisco-linux",
-  "version": "1.94.0-unified.1",
-  "description": "Subway Surfers San Francisco Linux (Unified Shared Storage)",
+  "version": "1.0.0",
+  "description": "SubwaySurfers-Linux v1.0 — World Tour: San Francisco (Game v1.94.0, Unified Shared Storage)",
   "main": "main.js",
   "author": "SubwaySurfers-Linux Contributors (based on AppImage by Drizzle)",
   "license": "MIT"

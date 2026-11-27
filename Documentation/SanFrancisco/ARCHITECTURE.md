@@ -13,6 +13,7 @@ All game bundles in `Source/SanFrancisco/web/Build/` were extracted unmodified f
 3. **Host Filesystem IDBFS Bridge (`4399.js` + `host_idbfs_bridge.js`):** Routes `IDBFS.syncfs` through `window.HostIDBFS` and `window.subwayIPC` directly to `~/.local/share/SubwaySurfers-Linux/Save/`, eliminating `~/.config/SubwaySurfersSanfrancisco`.
 4. **MEMFS `/http:` Directory Pre-Creation:** `4399.js` ensures `/http:/127.0.0.1:<port>` directories exist in MEMFS for Kiloo `FileUtil`.
 5. **AutoSave & Crash Recovery:** Uses unified `Source/Shared/autosave_manager.js` (`4.0.0-unified-shared`) with `FS._autosaveNativeHooks = true`.
+6. **WASD Controls (`Source/Shared/controls_wasd.js`):** Standardizes movement to `W/A/S/D` inside `JSEvents.registerKeyEventCallback`, suppresses physical arrow movement, releases held keys on `blur`/`visibilitychange`/`pagehide`, and preserves `Space`, `Escape`, `F11`, modifiers, and text inputs.
 
 ## 3. Known Limitations
 - Upstream `poki-sdk-core.js` logs a harmless console warning when outbound Poki telemetry/font requests are blocked by offline CSP/request filtering; gameplay and saves are unaffected.

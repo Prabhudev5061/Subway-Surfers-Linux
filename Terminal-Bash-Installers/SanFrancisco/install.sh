@@ -72,9 +72,10 @@ find_required() {
 }
 
 echo "===================================================================="
-echo "  $APP_ID — Standalone Linux Installer"
+echo "  $APP_ID — Standalone Linux Installer (SubwaySurfers-Linux v1.0)"
 echo "===================================================================="
-echo "Version:      World Tour: San Francisco (1.94.0)"
+echo "Release:      SubwaySurfers-Linux 1.0 (1.0.0)"
+echo "Game Build:   World Tour: San Francisco (1.94.0)"
 echo "Architecture: $ARCH"
 echo "Shared Save:  ${XDG_DATA_HOME:-$HOME/.local/share}/SubwaySurfers-Linux/Save/"
 echo "===================================================================="

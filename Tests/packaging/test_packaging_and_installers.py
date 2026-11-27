@@ -82,9 +82,15 @@ class PackagingTests(unittest.TestCase):
         bj_deb = REPO_ROOT / "Debian installers" / "SubwaySurfers-Beijing-Linux-amd64.deb"
         zr_deb = REPO_ROOT / "Debian installers" / "SubwaySurfers-Zurich-Linux-amd64.deb"
 
-        self.assertIn("Package: subwaysurfers-sanfrancisco-linux", subprocess.check_output(["dpkg-deb", "--info", str(sf_deb)], text=True))
-        self.assertIn("Package: subwaysurfers-beijing-linux", subprocess.check_output(["dpkg-deb", "--info", str(bj_deb)], text=True))
-        self.assertIn("Package: subwaysurfers-zurich-linux", subprocess.check_output(["dpkg-deb", "--info", str(zr_deb)], text=True))
+        sf_info = subprocess.check_output(["dpkg-deb", "--info", str(sf_deb)], text=True)
+        self.assertIn("Package: subwaysurfers-sanfrancisco-linux", sf_info)
+        self.assertIn("Version: 1.0.0", sf_info)
+        bj_info = subprocess.check_output(["dpkg-deb", "--info", str(bj_deb)], text=True)
+        self.assertIn("Package: subwaysurfers-beijing-linux", bj_info)
+        self.assertIn("Version: 1.0.0", bj_info)
+        zr_info = subprocess.check_output(["dpkg-deb", "--info", str(zr_deb)], text=True)
+        self.assertIn("Package: subwaysurfers-zurich-linux", zr_info)
+        self.assertIn("Version: 1.0.0", zr_info)
 
         sf_list = subprocess.check_output(["dpkg-deb", "--contents", str(sf_deb)], text=True)
         self.assertIn("/opt/subwaysurfers-sanfrancisco/", sf_list)
