@@ -11,7 +11,8 @@
     var state = {
         initialized: false,
         gameplayActive: false,
-        loadingProgress: 0
+        loadingProgress: 0,
+        adBlocked: true
     };
 
     function resolvedVoid() {
@@ -22,14 +23,27 @@
         return Promise.resolve(false);
     }
 
+    function rejectedAdsDisabled() {
+        return Promise.reject(new Error('Promotional ads disabled in offline desktop build'));
+    }
+
+    globalScope.pokiAdBlock = true;
+    globalScope.pokiReady = false;
+
     globalScope.PokiSDK = {
         init: function () {
-            state.initialized = true;
-            return resolvedVoid();
+            state.initialized = false;
+            state.adBlocked = true;
+            globalScope.pokiAdBlock = true;
+            globalScope.pokiReady = false;
+            return rejectedAdsDisabled();
         },
         initWithVideoHB: function () {
-            state.initialized = true;
-            return resolvedVoid();
+            state.initialized = false;
+            state.adBlocked = true;
+            globalScope.pokiAdBlock = true;
+            globalScope.pokiReady = false;
+            return rejectedAdsDisabled();
         },
         setDebug: function () {},
         gameLoadingStart: function () { state.loadingProgress = 0; },
@@ -46,8 +60,21 @@
         roundEnd: function () {},
         commercialBreak: function () { return resolvedVoid(); },
         rewardedBreak: function () { return resolvedFalse(); },
-        displayAd: function () {},
-        destroyAd: function () {},
+        displayAd: function (container) {
+            if (container && container.style) {
+                container.style.display = 'none';
+                container.style.top = '-9999px';
+                container.style.left = '-9999px';
+                if (container.parentNode) {
+                    try { container.parentNode.removeChild(container); } catch (e) {}
+                }
+            }
+        },
+        destroyAd: function (container) {
+            if (container && container.parentNode) {
+                try { container.parentNode.removeChild(container); } catch (e) {}
+            }
+        },
         disableProgrammatic: function () {},
         muteAd: function () {},
         happyTime: function () {},
@@ -64,6 +91,8 @@
 
     globalScope.initPokiBridge = function (gameObjectName) {
         globalScope.pokiBridge = gameObjectName;
+        globalScope.pokiAdBlock = true;
+        globalScope.pokiReady = false;
         globalScope.commercialBreak = function () {
             globalScope.PokiSDK.commercialBreak().then(function () {
                 if (globalScope.unityGame && typeof globalScope.unityGame.SendMessage === 'function') {
@@ -79,7 +108,7 @@
             });
         };
         if (globalScope.unityGame && typeof globalScope.unityGame.SendMessage === 'function') {
-            globalScope.unityGame.SendMessage(gameObjectName, 'ready');
+            globalScope.unityGame.SendMessage(gameObjectName, 'adblock');
         }
     };
 })(typeof window !== 'undefined' ? window : globalThis);
