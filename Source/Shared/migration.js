@@ -4,6 +4,7 @@
  * Migrates legacy per-version Chromium IndexedDB profiles:
  *   - San Francisco: $XDG_CONFIG_HOME/SubwaySurfersSanfrancisco
  *   - Beijing:       $XDG_CONFIG_HOME/SubwaySurfersBeijing2 (and SubwaySurfersBeijing)
+ *   - Zurich:        $XDG_CONFIG_HOME/SubwaySurfersZurich
  * into the canonical unified save storage:
  *   $XDG_DATA_HOME/SubwaySurfers-Linux/Save/
  *
@@ -11,7 +12,7 @@
  * - Never modifies or deletes legacy directories during migration.
  * - Creates SHA-256-verified backups of any detected legacy profiles before migrating.
  * - Validates 28-byte SHA-1 headers and UnityPrf headers before & after migration.
- * - Never silently resolves a conflict when both SF and Beijing contain player data;
+ * - Never silently resolves a conflict when multiple legacy profiles contain player data;
  *   stops and reports the conflict unless an explicit --migrate-source is chosen.
  */
 const crypto = require('crypto');
@@ -34,7 +35,8 @@ function getLegacyProfilePaths() {
         beijing: [
             path.join(configHome, 'SubwaySurfersBeijing2'),
             path.join(configHome, 'SubwaySurfersBeijing')
-        ]
+        ],
+        zurich: [path.join(configHome, 'SubwaySurfersZurich')]
     };
 }
 
@@ -182,11 +184,12 @@ function summarizeSaveMap(normalized) {
 }
 
 /**
- * Performs deterministic migration given extracted save maps for SF and/or Beijing.
+ * Performs deterministic migration given extracted save maps for SF, Beijing, and/or Zurich.
  */
 function runMigrationFromMaps({
     sfEntries = null,
     bjEntries = null,
+    zrEntries = null,
     saveDir = getCanonicalSaveDir(),
     rootDir = getCanonicalRootDir(),
     explicitSource = null,
@@ -200,12 +203,19 @@ function runMigrationFromMaps({
         return { status: 'already_present', saveDir };
     }
 
-    const sfNorm = sfEntries ? normalizeExtractedEntries(sfEntries) : {};
-    const bjNorm = bjEntries ? normalizeExtractedEntries(bjEntries) : {};
-    const sfSummary = summarizeSaveMap(sfNorm);
-    const bjSummary = summarizeSaveMap(bjNorm);
+    const normByVersion = {
+        sanfrancisco: sfEntries ? normalizeExtractedEntries(sfEntries) : {},
+        beijing: bjEntries ? normalizeExtractedEntries(bjEntries) : {},
+        zurich: zrEntries ? normalizeExtractedEntries(zrEntries) : {}
+    };
+    const summaryByVersion = {
+        sanfrancisco: summarizeSaveMap(normByVersion.sanfrancisco),
+        beijing: summarizeSaveMap(normByVersion.beijing),
+        zurich: summarizeSaveMap(normByVersion.zurich)
+    };
+    const activeVersions = Object.keys(summaryByVersion).filter((v) => summaryByVersion[v].hasMeaningfulData);
 
-    if (!sfSummary.hasMeaningfulData && !bjSummary.hasMeaningfulData) {
+    if (activeVersions.length === 0) {
         fs.mkdirSync(saveDir, { recursive: true });
         fs.mkdirSync(path.join(saveDir, 'recovery'), { recursive: true });
         const state = {
@@ -220,20 +230,13 @@ function runMigrationFromMaps({
     let chosenVersion = null;
     let chosenMap = null;
 
-    if (sfSummary.hasMeaningfulData && !bjSummary.hasMeaningfulData) {
-        chosenVersion = 'sanfrancisco';
-        chosenMap = sfNorm;
-    } else if (!sfSummary.hasMeaningfulData && bjSummary.hasMeaningfulData) {
-        chosenVersion = 'beijing';
-        chosenMap = bjNorm;
+    if (activeVersions.length === 1) {
+        chosenVersion = activeVersions[0];
+        chosenMap = normByVersion[chosenVersion];
     } else {
-        // Both San Francisco and Beijing contain meaningful player data!
-        if (explicitSource === 'sanfrancisco') {
-            chosenVersion = 'sanfrancisco';
-            chosenMap = sfNorm;
-        } else if (explicitSource === 'beijing') {
-            chosenVersion = 'beijing';
-            chosenMap = bjNorm;
+        if (explicitSource && activeVersions.includes(explicitSource)) {
+            chosenVersion = explicitSource;
+            chosenMap = normByVersion[chosenVersion];
         } else if (explicitSource === 'fresh') {
             fs.mkdirSync(saveDir, { recursive: true });
             fs.mkdirSync(path.join(saveDir, 'recovery'), { recursive: true });
@@ -249,13 +252,13 @@ function runMigrationFromMaps({
             const conflictReport = {
                 status: 'conflict',
                 detectedAt: new Date().toISOString(),
-                reason: 'Both legacy San Francisco and Beijing profiles contain valid player save data. Refusing to silently overwrite either.',
-                sanfrancisco: sfSummary,
-                beijing: bjSummary,
+                reason: `Multiple legacy profiles (${activeVersions.join(', ')}) contain valid player save data. Refusing to silently overwrite any of them.`,
+                sanfrancisco: summaryByVersion.sanfrancisco,
+                beijing: summaryByVersion.beijing,
+                zurich: summaryByVersion.zurich,
                 backupInfo,
                 resolutionOptions: [
-                    '--migrate-source=sanfrancisco',
-                    '--migrate-source=beijing',
+                    ...activeVersions.map((v) => `--migrate-source=${v}`),
                     '--migrate-source=fresh'
                 ]
             };
@@ -314,7 +317,7 @@ function runMigrationFromMaps({
 
 function detectLegacyProfiles() {
     const paths = getLegacyProfilePaths();
-    const detected = { sanfrancisco: null, beijing: null };
+    const detected = { sanfrancisco: null, beijing: null, zurich: null };
     for (const [ver, candidates] of Object.entries(paths)) {
         for (const p of candidates) {
             const idbDir = findLegacyIndexedDbDir(p);
@@ -342,8 +345,8 @@ async function performFirstLaunchMigration({
     }
 
     const detected = detectLegacyProfiles();
-    if (!detected.sanfrancisco && !detected.beijing) {
-        return runMigrationFromMaps({ sfEntries: null, bjEntries: null, saveDir, rootDir, explicitSource });
+    if (!detected.sanfrancisco && !detected.beijing && !detected.zurich) {
+        return runMigrationFromMaps({ sfEntries: null, bjEntries: null, zrEntries: null, saveDir, rootDir, explicitSource });
     }
 
     const backupBase = path.join(rootDir, 'migration', 'backups');
@@ -355,10 +358,14 @@ async function performFirstLaunchMigration({
     const bjEntries = detected.beijing && extractLegacyProfileFn
         ? await extractLegacyProfileFn(detected.beijing)
         : null;
+    const zrEntries = detected.zurich && extractLegacyProfileFn
+        ? await extractLegacyProfileFn(detected.zurich)
+        : null;
 
     return runMigrationFromMaps({
         sfEntries,
         bjEntries,
+        zrEntries,
         saveDir,
         rootDir,
         explicitSource,

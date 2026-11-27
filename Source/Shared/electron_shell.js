@@ -1,7 +1,8 @@
 /**
  * Unified Hardened Electron Shell for SubwaySurfers-Linux
  *
- * Shared by both SubwaySurfers-SanFrancisco-Linux and SubwaySurfers-Beijing-Linux.
+ * Shared by SubwaySurfers-SanFrancisco-Linux, SubwaySurfers-Beijing-Linux,
+ * and SubwaySurfers-Zurich-Linux.
  * Provides:
  * - Exclusive shared save lock (~/.local/share/SubwaySurfers-Linux/Save/.storage.lock)
  * - First-launch legacy save migration with conflict protection
@@ -175,9 +176,9 @@ function launchUnifiedGame(config) {
     }
 
     const {
-        appId,              // 'SubwaySurfers-SanFrancisco-Linux' or 'SubwaySurfers-Beijing-Linux'
-        versionSlug,        // 'sanfrancisco' or 'beijing'
-        windowTitle,        // 'Subway Surfers' or 'Subway Surfers: Beijing'
+        appId,              // 'SubwaySurfers-SanFrancisco-Linux', 'SubwaySurfers-Beijing-Linux', or 'SubwaySurfers-Zurich-Linux'
+        versionSlug,        // 'sanfrancisco', 'beijing', or 'zurich'
+        windowTitle,        // 'Subway Surfers', 'Subway Surfers: Beijing', or 'Subway Surfers: Zurich'
         webRoot,
         sharedRoot,
         iconPath,
@@ -637,10 +638,13 @@ function launchUnifiedGame(config) {
             });
             logDiag('INFO', `Migration check status: ${migResult.status}`);
             if (migResult.status === 'conflict') {
+                const optionsText = Array.isArray(migResult.resolutionOptions)
+                    ? migResult.resolutionOptions.join(', ')
+                    : '--migrate-source=sanfrancisco, --migrate-source=beijing, --migrate-source=zurich';
                 const msg =
-                    `Existing saves were detected in both legacy San Francisco and Beijing profiles.\n\n` +
+                    `Existing saves were detected in multiple legacy Subway Surfers profiles.\n\n` +
                     `To prevent losing progress, automatic migration was stopped and backups were saved.\n` +
-                    `Launch with --migrate-source=sanfrancisco or --migrate-source=beijing to select one.`;
+                    `Launch with one of: ${optionsText}`;
                 logDiag('ERROR', msg);
                 if (!process.env.SUBWAY_NO_LOCK_DIALOG) {
                     try { dialog.showErrorBox(`${appId} — Save Migration Conflict`, msg); } catch (e) {}

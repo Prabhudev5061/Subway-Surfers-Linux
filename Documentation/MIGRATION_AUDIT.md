@@ -17,7 +17,8 @@
 | Beijing Project | `/home/prabhudev/Subway Surfer/SubwaySurfers-Beijing-Linux/` | `3a98ad2` (`main`) | Electron 36.5.0 + Unity 2019.2.0f1 (`Beijing_2`, `productVersion: 1.94.0`), embedded `127.0.0.1` HTTP server |
 | Beijing AppImage | `/home/prabhudev/Subway Surfer/SubwaySurfers-Beijing-Linux/dist/SubwaySurfers-Beijing-Linux-x86_64.AppImage` | `0.2.0-standalone` | Size: `153,015,488` bytes, SHA-256: `44301f0230b0aa586dc6d4390c23b23b4747ce3d6aeec64608d6d7a3360e2cf6` |
 | Beijing Debian Package | `/home/prabhudev/Subway Surfer/SubwaySurfers-Beijing-Linux/dist/SubwaySurfers-Beijing-Linux-amd64.deb` | `0.2.0-standalone` | SHA-256: `82b7c264b0264ee5ff2759bb6e22283baf01ac4679dc83e25a0fa4f5e323f7c9` |
-| Beijing Bash Installer | `/home/prabhudev/Subway Surfer/SubwaySurfers-Beijing-Linux/dist/SubwaySurfers-Beijing-Linux-Installer.sh` | `0.2.0-standalone` | SHA-256: `de87c45915ee5911590cd303f6642c8349e272e9a70dec1ddc1d802d9ee4e8c8` |
+| Beijing Bash Installer | `/home/prabhudev/Subway Surfer/SubwaySurfers-Linux/Terminal-Bash-Installers/Beijing/` | `1.94.0-unified1` | Self-contained installer bundle |
+| Zurich Source Capture | `/home/prabhudev/Subway Surfer/Zurich/files/m.igroutka.ru/ni3/171/SubwaySurfers/` | `ZurichNewPrivacy` (`1.94.0`) | Unity `2019.4.18f1`, `TOTAL_MEMORY: 369098752`, `ZurichNewPrivacy.data.unityweb` SHA-256 `abf564553f7b07a29425c035ce8069248809c5efdcc4e76a147412fa87a5ee9a` |
 
 ---
 
@@ -26,10 +27,8 @@
 1. **Pre-existing Migration Backup (14:43):** `/home/prabhudev/Subway Surfer/backups_unified_migration_20261127_1444/`
    - Verified with `sha256sum -c --quiet SHA256SUMS.backup` -> `ALL_OK`.
    - Note: Live saves in `~/.config/SubwaySurfersSanfrancisco` (17:50) and `~/.config/SubwaySurfersBeijing2` (17:55) were updated after 14:43.
-2. **Current Phase One Audit Backup (18:03):** `/home/prabhudev/Subway Surfer/backups_audit_20261127/`
-   - Contains full copies of `Subway-Surfers-Linux/`, `SubwaySurfers-Beijing-Linux/`, `upstream_original/SubwaySurfers-x86-64.AppImage`, live `~/.config/SubwaySurfersSanfrancisco` (directory + `.tar.gz`), live `~/.config/SubwaySurfersBeijing2` (directory + `.tar.gz`), and original logos (`logos/sanfrancisco/subwaysurfers.png`, `logos/beijing/4399.png`).
-   - Manifest: `SHA256SUMS.backup` (`715` files).
-   - Verification: `sha256sum -c --quiet SHA256SUMS.backup` -> **`BACKUP_VERIFIED_OK`** (0 failures).
+2. **Phase One Audit Backup (18:03):** `/home/prabhudev/Subway Surfer/backups_audit_20261127/` (`715` files, `sha256sum -c --quiet SHA256SUMS.backup` -> `BACKUP_VERIFIED_OK`).
+3. **Zurich Integration Phase 0 Backup (22:00):** `/home/prabhudev/Subway Surfer/backups_zurich_phase0_20261127_220012/` (`320` files, `sha256sum -c --quiet SHA256SUMS.backup` -> `OK`). Contains full pre-Zurich `SubwaySurfers-Linux/`, full `Zurich/` source tree, `~/.local/share/SubwaySurfers-Linux/` shared saves & migration backups, and Git status/history snapshot.
 
 ---
 
@@ -40,6 +39,8 @@
 | San Francisco | `Subway-Surfers-Linux/source/subwaysurfers.png` (and `.DirIcon` / `resources/app/icon.png` in upstream AppImage) | PNG, `512 x 512`, 8-bit/color RGBA | `378,940` | `95ea7b903bf206b293c1f2fcfcbcfc40d3e6391c78fbbec4672c360b5fb694c3` |
 | San Francisco (Favicon) | `SubwaySurfers-x86-64.AppImage!/html/favicon.ico` | JPEG, `16 x 16` | `852` | (preserved in upstream bundle) |
 | Beijing | `SubwaySurfers-Beijing-Linux/web/4399.png` (from `Beijing-Website-Download/ni3/125/SubwaySurfers/4399.png`) | PNG, `2048 x 2048`, 16-bit/color RGB | `11,665,811` | `0129053cb9fd66cc8f5d9a0f5d9686115ee6dacd8c89f94384359f1b521ba890` |
+| Zurich (Original) | `Zurich/files/m.igroutka.ru/ni3/171/SubwaySurfers/b3f5e1472e1bfbee1804c7e854546a08.png` | WebP, `40 x 40`, RGB | `1,054` | `2ce9ec76c8503a9fbdb459d457ec1f140c97a443eae99f0cb12bc9ac0c15759a` |
+| Zurich (Desktop/X11 PNG) | `Source/Zurich/assets/subwaysurfers-zurich.png` (decoded from original WebP) | PNG, `256 x 256`, 8-bit/color RGBA | `91,301` | `145baf5e11c4d42c8c9f920679db4d9ee7c0de92a202882c7d94008b77c1ce23` |
 
 **Audit Finding (Logo Defect Fixed in Unified Build):**
 - `SubwaySurfers-Beijing-Linux` previously packaged `appimage/icon-placeholder.png` (`256 x 256`, SHA-256 `5398fe31404d91a2445609758842e21d7fe1124422fcecc8b37a338792a21248`) as its AppImage `.DirIcon` and `.deb` icon instead of the original `web/4399.png`.
@@ -66,9 +67,10 @@ Decoded via `persistence/bson_adapter.py` on isolated copies of both live profil
 - **`Save/local`:** Both have **30 top-level keys**, 0 unique keys, 0 type mismatches.
 - **`PlayerPrefs`:** Both use Unity binary `UnityPrf` container (`b"UnityPrf\x00\x00\x01\x00\x00\x00\x10\x00..."`).
 
-### 4.3 Live Cross-Engine Compatibility Verification
-- Booting **Beijing** (`Unity 2019.2.0f1`) with San Francisco's exact save files (`Save/cloud`, `Save/cloud_old`, `Save/local`, `Save/local_old`, `PlayerPrefs`) succeeded with zero errors; `Save/cloud` preserved exact SHA-1 `a417dff6efc8f2ba0f4f85fc9b726d04c09aea17` (`2,423` coins, `64` keys, `highScore=3,172,149`, `fresh`, `starboard`).
-- Booting **San Francisco** (`Unity 2019.4.18f1`) with Beijing's exact save files succeeded with zero errors; `Save/cloud` preserved exact SHA-1 `0db7ee4449ed869bd7c58c57b6896a0d5060be4b` (`1,000` coins, `5` keys, `highScore=24,140`).
+### 4.3 Live Cross-Engine Compatibility Verification (3 Versions)
+- Booting **Beijing** (`Unity 2019.2.0f1`) with San Francisco's exact save files succeeded with zero errors.
+- Booting **San Francisco** (`Unity 2019.4.18f1`) with Beijing's exact save files succeeded with zero errors.
+- Booting **Zurich** (`ZurichNewPrivacy`, `Unity 2019.4.18f1`, `1.94.0`) against the live shared save succeeded with zero errors: `Save/cloud` (`142` top-level keys, `0` missing/extra keys, `0` type mismatches), `Save/local` (`30` top-level keys, `0` missing/extra keys, `0` type mismatches), and `PlayerPrefs` (`UnityPrf`, `353` bytes) all matched San Francisco and Beijing identically. All six directed cross-version transitions passed live E2E verification.
 
 ### 4.4 Player Data Conflict & Migration Decision
 Both legacy profiles contain active progress:
