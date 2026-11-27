@@ -6,7 +6,7 @@ const crypto = require('crypto');
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
-const { spawn } = require('child_process');
+const { spawn, execSync } = require('child_process');
 
 const REPO_ROOT = path.resolve(__dirname, '../..');
 const SHARED_DIR = path.join(REPO_ROOT, 'Source', 'Shared');
@@ -83,21 +83,23 @@ async function run() {
         assert(loaded2.rejectedBackups.some((b) => b.backup === 'cloud_old'), 'Corrupted cloud_old must be rejected');
         assert.deepStrictEqual(loaded2.files['Save/cloud'], cloud1);
 
-        // 5. Exclusive locking across processes + stale lock recovery
+        // 5. Exclusive locking across all 3 versions + stale lock recovery
         const lock1 = acquireStorageLock(saveDir, { appName: 'SubwaySurfers-SanFrancisco-Linux', version: 'sanfrancisco' });
         assert.strictEqual(lock1.acquired, true);
 
-        // Spawn child process trying to acquire the same lock -> MUST fail
-        const childCode = await new Promise((resolve) => {
-            const c = spawn(process.execPath, [
-                '-e',
-                `const { acquireStorageLock } = require(${JSON.stringify(path.join(SHARED_DIR, 'storage_lock.js'))});
-                 const r = acquireStorageLock(${JSON.stringify(saveDir)}, { appName: 'SubwaySurfers-Beijing-Linux' });
-                 process.exit(r.acquired ? 0 : 2);`
-            ], { env: { ...process.env, ELECTRON_RUN_AS_NODE: '1' } });
-            c.on('exit', resolve);
-        });
-        assert.strictEqual(childCode, 2, 'Concurrent second instance must fail to acquire lock');
+        // Spawn child processes for Beijing & Zurich trying to acquire the same lock -> MUST fail
+        for (const contender of ['SubwaySurfers-Beijing-Linux', 'SubwaySurfers-Zurich-Linux']) {
+            const childCode = await new Promise((resolve) => {
+                const c = spawn(process.execPath, [
+                    '-e',
+                    `const { acquireStorageLock } = require(${JSON.stringify(path.join(SHARED_DIR, 'storage_lock.js'))});
+                     const r = acquireStorageLock(${JSON.stringify(saveDir)}, { appName: ${JSON.stringify(contender)} });
+                     process.exit(r.acquired ? 0 : 2);`
+                ], { env: { ...process.env, ELECTRON_RUN_AS_NODE: '1' } });
+                c.on('exit', resolve);
+            });
+            assert.strictEqual(childCode, 2, `Concurrent ${contender} instance must fail to acquire lock`);
+        }
         assert.strictEqual(lock1.release(), true, 'Lock release on normal shutdown');
 
         // Simulate stale lock left by dead PID 9999999
@@ -105,10 +107,34 @@ async function run() {
             path.join(saveDir, '.storage.lock'),
             JSON.stringify({ pid: 9999999, startTimeTicks: '1', appName: 'CrashedApp', hostname: os.hostname() })
         );
-        const lockAfterCrash = acquireStorageLock(saveDir, { appName: 'SubwaySurfers-Beijing-Linux', version: 'beijing' });
+        const lockAfterCrash = acquireStorageLock(saveDir, { appName: 'SubwaySurfers-Zurich-Linux', version: 'zurich' });
         assert.strictEqual(lockAfterCrash.acquired, true, 'Must recover stale lock after crash');
         assert.strictEqual(lockAfterCrash.recoveredStale, true);
         lockAfterCrash.release();
+
+        // 6. Unknown BSON field & exact type preservation round-trip via bson_adapter.py
+        const pyRoundTrip = `
+import sys
+from pathlib import Path
+sys.path.insert(0, ${JSON.stringify(SHARED_DIR)})
+import bson_adapter
+src_raw = Path(${JSON.stringify(path.join(REPO_ROOT, 'Tests', 'fixtures', 'synthetic_source_save_cloud.bin'))}).read_bytes()
+tgt_raw = Path(${JSON.stringify(path.join(REPO_ROOT, 'Tests', 'fixtures', 'synthetic_target_save_cloud.bin'))}).read_bytes()
+src_doc, _ = bson_adapter.unwrap_and_validate_save(src_raw)
+tgt_doc, _ = bson_adapter.unwrap_and_validate_save(tgt_raw)
+tgt_doc["customZurichEventField"] = bson_adapter.BsonValue(bson_adapter.BSON_STRING, "zurich_easter_2021")
+tgt_doc["customInt64Counter"] = bson_adapter.BsonValue(bson_adapter.BSON_INT64, 9876543210123)
+merged, report = bson_adapter.sync_save_cloud_documents(src_doc, tgt_doc)
+out_bytes, _ = bson_adapter.wrap_save(merged)
+decoded, _ = bson_adapter.unwrap_and_validate_save(out_bytes)
+assert decoded["customZurichEventField"].bson_type == bson_adapter.BSON_STRING
+assert decoded["customZurichEventField"].value == "zurich_easter_2021"
+assert decoded["customInt64Counter"].bson_type == bson_adapter.BSON_INT64
+assert decoded["customInt64Counter"].value == 9876543210123
+print("BSON_ROUNDTRIP_OK")
+`;
+        const rtOut = execSync('python3 -', { input: pyRoundTrip, encoding: 'utf8' }).trim();
+        assert.strictEqual(rtOut, 'BSON_ROUNDTRIP_OK', 'Unknown BSON fields must survive round-trip');
 
         console.log('[PASS] Shared storage & locking tests passed.');
     } finally {

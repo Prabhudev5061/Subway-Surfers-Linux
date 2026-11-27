@@ -1,6 +1,6 @@
 # Installation Guide — `SubwaySurfers-Linux`
 
-Both **Subway Surfers: San Francisco** (`SubwaySurfers-SanFrancisco-Linux`) and **Subway Surfers: Beijing** (`SubwaySurfers-Beijing-Linux`) can be installed independently or side-by-side. Both automatically share `~/.local/share/SubwaySurfers-Linux/Save/`.
+**Subway Surfers: San Francisco** (`SubwaySurfers-SanFrancisco-Linux`), **Subway Surfers: Beijing** (`SubwaySurfers-Beijing-Linux`), and **Subway Surfers: Zurich** (`SubwaySurfers-Zurich-Linux`) can all be installed independently or side-by-side. All three automatically share `~/.local/share/SubwaySurfers-Linux/Save/`.
 
 ---
 
@@ -33,6 +33,10 @@ chmod +x "App images/SubwaySurfers-SanFrancisco-Linux-x86_64.AppImage"
 # Beijing
 chmod +x "App images/SubwaySurfers-Beijing-Linux-x86_64.AppImage"
 "./App images/SubwaySurfers-Beijing-Linux-x86_64.AppImage"
+
+# Zurich
+chmod +x "App images/SubwaySurfers-Zurich-Linux-x86_64.AppImage"
+"./App images/SubwaySurfers-Zurich-Linux-x86_64.AppImage"
 ```
 
 Optional windowed launch:
@@ -40,13 +44,14 @@ Optional windowed launch:
 ```bash
 "./App images/SubwaySurfers-SanFrancisco-Linux-x86_64.AppImage" --windowed
 "./App images/SubwaySurfers-Beijing-Linux-x86_64.AppImage" --windowed
+"./App images/SubwaySurfers-Zurich-Linux-x86_64.AppImage" --windowed
 ```
 
 ---
 
 ## 3. Option B — Debian Packages (`.deb`)
 
-Install system-wide to `/opt/subwaysurfers-sanfrancisco/` and `/opt/subwaysurfers-beijing/`:
+Install system-wide to `/opt/subwaysurfers-sanfrancisco/`, `/opt/subwaysurfers-beijing/`, and `/opt/subwaysurfers-zurich/`:
 
 ```bash
 # Install San Francisco
@@ -54,6 +59,9 @@ sudo dpkg -i "Debian installers/SubwaySurfers-SanFrancisco-Linux-amd64.deb" || s
 
 # Install Beijing
 sudo dpkg -i "Debian installers/SubwaySurfers-Beijing-Linux-amd64.deb" || sudo apt-get install -f -y
+
+# Install Zurich
+sudo dpkg -i "Debian installers/SubwaySurfers-Zurich-Linux-amd64.deb" || sudo apt-get install -f -y
 ```
 
 Launch from terminal or desktop menu:
@@ -61,6 +69,7 @@ Launch from terminal or desktop menu:
 ```bash
 subwaysurfers-sanfrancisco
 subwaysurfers-beijing
+subwaysurfers-zurich
 ```
 
 ---
@@ -79,26 +88,31 @@ cd Terminal-Bash-Installers/SanFrancisco
 # Beijing
 cd Terminal-Bash-Installers/Beijing
 ./install.sh --user
+
+# Zurich
+cd Terminal-Bash-Installers/Zurich
+./install.sh --user
 ```
 
 This installs:
-- Executable AppImages & symlinks in `~/.local/bin/subwaysurfers-sanfrancisco` and `~/.local/bin/subwaysurfers-beijing`
+- Executable AppImages & symlinks in `~/.local/bin/subwaysurfers-sanfrancisco`, `~/.local/bin/subwaysurfers-beijing`, and `~/.local/bin/subwaysurfers-zurich`
 - Desktop launchers in `~/.local/share/applications/`
-- Original version-specific icons in `~/.local/share/icons/hicolor/512x512/apps/`
+- Version-specific icons in `~/.local/share/icons/hicolor/512x512/apps/`
 
 ### System-Wide `.deb` Mode via Bash Installer
 
 ```bash
 ./Terminal-Bash-Installers/SanFrancisco/install.sh --deb
 ./Terminal-Bash-Installers/Beijing/install.sh --deb
+./Terminal-Bash-Installers/Zurich/install.sh --deb
 ```
 
 ---
 
 ## 5. Desktop Launcher & Controls
 
-- **Application Menu:** Search for **Subway Surfers: San Francisco** or **Subway Surfers: Beijing**.
-- **Fullscreen:** Both launch in fullscreen by default; press `F11` to toggle fullscreen/windowed mode (`window_state.json` persists your preference).
+- **Application Menu:** Search for **Subway Surfers: San Francisco**, **Subway Surfers: Beijing**, or **Subway Surfers: Zurich**.
+- **Fullscreen:** All three launch in fullscreen by default; press `F11` to toggle fullscreen/windowed mode (`window_state.json` persists your preference per version).
 - **Escape Key:** Preserved for in-game menus (does not close the window).
 
 ---
@@ -111,13 +125,14 @@ Run the newer AppImage, `dpkg -i`, or `install.sh` directly. Your shared player 
 
 ## 7. Uninstalling
 
-Uninstalling one version never affects the other version and **never removes shared player saves** at `~/.local/share/SubwaySurfers-Linux/Save/`.
+Uninstalling any version never affects the other two versions and **never removes shared player saves** at `~/.local/share/SubwaySurfers-Linux/Save/`.
 
 ### Using Standalone Uninstallers
 
 ```bash
 ./Terminal-Bash-Installers/SanFrancisco/uninstall.sh
 ./Terminal-Bash-Installers/Beijing/uninstall.sh
+./Terminal-Bash-Installers/Zurich/uninstall.sh
 ```
 
 ### Using `dpkg` (System `.deb` Packages)
@@ -125,4 +140,5 @@ Uninstalling one version never affects the other version and **never removes sha
 ```bash
 sudo dpkg -r subwaysurfers-sanfrancisco-linux
 sudo dpkg -r subwaysurfers-beijing-linux
+sudo dpkg -r subwaysurfers-zurich-linux
 ```
