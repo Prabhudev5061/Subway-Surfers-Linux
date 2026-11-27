@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval' blob:; worker-src 'self' blob:; connect-src 'self' blob: data:; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; object-src 'none'; base-uri 'self';">
+  <title>Subway Surfers: Beijing</title>
+  <link rel="icon" href="4399.png">
+  <link rel="stylesheet" href="TemplateData/style.css">
+  <script src="/shared/sha1_header.js"></script>
+  <script src="/shared/host_idbfs_bridge.js"></script>
+  <script src="/shared/autosave_manager.js"></script>
+  <script src="runtime/poki-sdk-cleanroom.js"></script>
+  <script src="runtime/unity_2019_2_compat.js"></script>
+  <script src="4399.js"></script>
+  <script src="runtime/runtime_bootstrap.js"></script>
+</head>
+<body>
+  <main id="viewport-stage">
+    <div id="gameContainer" aria-label="Subway Surfers: Beijing"></div>
+
+    <div id="loading-overlay" class="overlay-card" aria-live="polite">
+      <div id="loading-title" class="loading-title">Subway Surfers: Beijing</div>
+      <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <div id="loading-progress-bar" class="progress-fill"></div>
+      </div>
+      <div id="runtime-status-msg" class="progress-label">Loading...</div>
+    </div>
+
+    <div id="error-overlay" class="overlay-card hidden" role="alert">
+      <h1 id="error-title">Unable to Start Game</h1>
+      <p id="error-message">Required game files could not be loaded.</p>
+      <button id="btn-retry-boot" type="button" class="btn btn-primary">Retry</button>
+    </div>
+  </main>
+</body>
+</html>

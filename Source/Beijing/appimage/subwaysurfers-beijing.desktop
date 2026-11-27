@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Subway Surfers: Beijing
+Comment=Subway Surfers World Tour: Beijing (Unified Shared Save Edition)
+Exec=subwaysurfers-beijing %U
+Icon=subwaysurfers-beijing
+Terminal=false
+Type=Application
+Categories=Game;ArcadeGame;
+StartupWMClass=SubwaySurfers-Beijing-Linux
+Keywords=subway;surfers;beijing;game;runner;arcade;

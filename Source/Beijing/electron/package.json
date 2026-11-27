@@ -1,0 +1,8 @@
+{
+  "name": "subwaysurfers-beijing-linux",
+  "version": "1.94.0-unified.1",
+  "description": "Subway Surfers Beijing Linux (Unified Shared Storage)",
+  "main": "main.js",
+  "author": "SubwaySurfers-Linux Contributors",
+  "license": "MIT"
+}

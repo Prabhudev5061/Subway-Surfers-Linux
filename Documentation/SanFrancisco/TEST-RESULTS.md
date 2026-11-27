@@ -1,0 +1,8 @@
+# San Francisco Test Results
+
+All tests executed on **2026-11-27** against the final rebuilt packages:
+- **Shared Storage & Locking (`Tests/shared-storage/test_shared_storage.js`):** PASS — Verified canonical path resolution, traversal rejection, atomic `Save/cloud` writes, recovery backups, and concurrent lock rejection.
+- **Migration (`Tests/migration/test_migration.js` + live host migration):** PASS — Verified conflict detection (`exit=3`) when both legacy profiles exist, and verified `--migrate-source=sanfrancisco` migration (`obfuscatedCoins=2423`, `obfuscatedKeys=64`, `highScore=3172149`, `completedRunCount=44`, `currentCharacterId=fresh`).
+- **AutoSave & HostIDBFS (`Tests/autosave/test_autosave_and_recovery.js`):** PASS — Verified debounce coalescing, retry recovery, and `forceFlushAndExit` queue draining.
+- **Packaging & Standalone Installer (`Tests/packaging/test_packaging_and_installers.py`):** PASS — Verified `.deb` contents, original logo SHA-256 (`95ea7b903bf206b293c1f2fcfcbcfc40d3e6391c78fbbec4672c360b5fb694c3`), absence of `SanFranciso` typo, and independent Bash install/uninstall preserving shared saves.
+- **Live E2E & Cross-Version Switching (`Tests/integration/test_cross_version_and_ui.js`):** PASS — Verified fullscreen startup, `F11` toggle, `Escape` preservation, minimal UI (0 extra buttons/toolbars), `nodeIntegration: false`, external network blocking, Intel UHD WebGL 2.0 (`ANGLE (Intel, Mesa Intel(R) Graphics (ADL GT2), OpenGL 4.6)`), SF -> Beijing -> SF live progress switching, and `SIGKILL` stale-lock recovery.

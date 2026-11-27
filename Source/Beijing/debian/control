@@ -1,0 +1,17 @@
+Package: subwaysurfers-beijing-linux
+Version: 1.94.0-unified1
+Section: games
+Priority: optional
+Architecture: amd64
+Maintainer: SubwaySurfers-Linux Contributors <support@subwaysurfers.local>
+Depends: libc6 (>= 2.31), libasound2 | libasound2t64, libnss3, libatk1.0-0 | libatk1.0-0t64, libatk-bridge2.0-0 | libatk-bridge2.0-0t64, libcups2 | libcups2t64, libdrm2, libgtk-3-0 | libgtk-3-0t64, libgbm1
+Installed-Size: 330000
+Description: Subway Surfers World Tour: Beijing (Unified Linux Edition)
+ Subway Surfers World Tour: Beijing (Beijing_2, v1.94.0, Unity 2019.2.0f1)
+ packaged for Linux with unified shared save storage
+ (~/.local/share/SubwaySurfers-Linux/Save/), invisible event-driven autosave,
+ atomic file writes, crash recovery, exclusive save locking, and fullscreen
+ startup (F11 toggle).
+ .
+ Proprietary Subway Surfers assets remain the intellectual property of
+ SYBO Games ApS / Kiloo Games; local test build pending redistribution rights.

@@ -1,0 +1,62 @@
+# ==============================================================================
+# SubwaySurfers-Linux .gitignore
+# Excludes proprietary Unity/game assets, compiled packages, local saves & temps
+# ==============================================================================
+
+# Compiled distributable binaries & standalone installer payloads (copyrighted game assets inside)
+App images/*.AppImage
+Debian installers/*.deb
+Terminal-Bash-Installers/*/required-files/*
+
+# Proprietary Unity WebGL data bundles, WASM binaries & game loaders
+*.unityweb
+*.wasm
+*.data
+*.unity3d
+Source/SanFrancisco/web/Build/
+Source/Beijing/web/Build/
+Source/SanFrancisco/web/UnityLoader*.js
+Source/Beijing/web/loaders/
+Source/SanFrancisco/web/poki-sdk*.js
+Source/SanFrancisco/web/prebid*.js
+Source/SanFrancisco/web/script.js
+Source/SanFrancisco/web/unity.js
+Source/SanFrancisco/web/master-loader.js
+Source/SanFrancisco/web/4399.js
+Source/Beijing/web/4399.js
+Source/*/web/screenshots/
+Source/*/web/fonts/
+Source/*/web/*.png
+Source/*/web/*.ico
+Source/*/assets/
+
+# Local user save storage, runtime profiles & backups
+Save/
+**/Save/
+*.recovery
+.storage.lock
+migration/
+backups/
+backups_*/
+*.tar.gz
+*.zip
+
+# Logs, caches, build intermediates & temporary files
+*.log
+logs/
+runtime.log
+build/
+dist/
+tmp/
+.cache/
+__pycache__/
+*.pyc
+node_modules/
+.DS_Store
+
+# Local credentials & local machine configs
+.env
+.env.*
+*.key
+*.pem
+window_state.json

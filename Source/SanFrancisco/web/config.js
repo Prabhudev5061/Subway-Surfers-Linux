@@ -1,0 +1,25 @@
+window.showUnitywebNoSupport = function(e) { console.warn("UnityWeb notice:", e); };
+window.config = {
+	loader: 'unity',
+	debug: false,
+	maxRatio: 16 / 9,
+	minRatio: 9 / 16,
+
+	title: 'Subway Surfers',
+	thumbnail: '95ecfe06a0f7a6d1f0e2933041121dee.jpg',
+	numScreenshots: 4,
+
+	unityVersion: '2019.4.18f1',
+	unityWebglBuildUrl: 'Build/SanFrancisco.json',
+
+	fileSize: 35,
+	cachedDecompressedFileSizes: {
+		'SanFrancisco.asm.code.unityweb': 9077143,
+		'SanFrancisco.asm.framework.unityweb': 86369,
+		'SanFrancisco.asm.memory.unityweb': 951447,
+		'SanFrancisco.data.unityweb': 18323917,
+		'SanFrancisco.wasm.code.unityweb': 7279617,
+		'SanFrancisco.wasm.framework.unityweb': 90693,
+		autoSyncPersistentDataPath: true,
+	},
+};
